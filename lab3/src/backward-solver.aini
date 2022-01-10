@@ -1,0 +1,17 @@
+[INCLUDE]
+AnotherFile=forward-solver.aini
+
+[PARAMS]
+
+g1_0=[3.0;1.0:10.0;0.1]
+g1_1=[2.0;1.0:5.0;0.1]
+g1_2=[1.0;0.5:5.0;0.1]
+
+[BACKWARD_METHOD]
+
+iterations=1000
+
+[DATA]
+
+reference_values=forward-task.csv
+output=backward-task.csv

@@ -1,0 +1,38 @@
+digraph backward_solver_graph {
+	// Функции-предикаты
+	PRED_B_GENERATE_G1 [module="backward_solver", entry_func="pred_b_generate_g1"]
+	PRED_B_PROC_FORWARD [module="backward_solver", entry_func="pred_b_proc_forward"]
+	PRED_B_TARGET_FUNC [module="backward_solver", entry_func="pred_b_target_func"]
+	PRED_B_G1_ASSIGN [module="backward_solver", entry_func="pred_b_g1_assign"]
+	PRED_B_POSTPROC [module="backward_solver", entry_func="pred_b_postproc"]
+	
+	// Функции-обработчики
+	HANDLE_B_GENERATE_G1 [module="backward_solver", entry_func="handle_b_generate_g1"]
+	HANDLE_B_PROC_FORWARD [module="backward_solver", entry_func="handle_b_proc_forward"]
+	HANDLE_B_TARGET_FUNC [module="backward_solver", entry_func="handle_b_target_func"]
+	HANDLE_B_G1_ASSIGN [module="backward_solver", entry_func="handle_b_g1_assign"]
+	HANDLE_B_POSTPROC [module="backward_solver", entry_func="handle_b_postproc"]
+	
+	// Функции перехода
+	TRANS_B_GENERATE_G1 [predicate=PRED_B_GENERATE_G1, function=HANDLE_B_GENERATE_G1]
+	TRANS_B_PROC_FORWARD [predicate=PRED_B_PROC_FORWARD, function=HANDLE_B_PROC_FORWARD]
+	TRANS_B_TARGET_FUNC [predicate=PRED_B_TARGET_FUNC, function=HANDLE_B_TARGET_FUNC]
+	TRANS_B_G1_ASSIGN [predicate=PRED_B_G1_ASSIGN, function=HANDLE_B_G1_ASSIGN]
+	TRANS_B_POSTPROC [predicate=PRED_B_POSTPROC, function=HANDLE_B_POSTPROC]
+	
+	// Функция-селектор
+	CHECK_ITER [module="backward_solver", entry_func="check_iter"]
+	
+	// Определение структуры графа
+	SB_3 [subgraph=forward-solver.adot]
+	SB_5 [selector=CHECK_ITER]
+	
+	// Описание графа
+	__BEGIN__ -> SF_1
+	SB_1 -> SB_2 [morphism=TRANS_B_GENERATE_G1]
+	SB_2 -> SB_3 [morphism=TRANS_B_PROC_FORWARD]
+	SB_3 -> SB_4 [morphism=TRANS_B_TARGET_FUNC]
+	SB_4 -> SB_5 [morphism=TRANS_B_G1_ASSIGN]
+	SB_5 -> SB_2, SB_6 [morphism=(TRANS_B_GENERATE_G1, TRANS_B_POSTPROC), order=(2, 1)]
+	SB_6 -> __END__
+}

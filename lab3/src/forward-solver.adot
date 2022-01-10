@@ -1,0 +1,19 @@
+digraph forward_solver_graph {
+	// Функции-предикаты
+	PRED_F_PROC [module="forward_solver", entry_func="pred_f_proc"]
+	PRED_F_POSTROC [module="forward_solver", entry_func="pred_f_postproc"]
+	
+	// Функции-обработчики
+	HANDLE_F_PROC [module="forward_solver", entry_func="handle_f_proc"]
+	HANDLE_F_POSTROC [module="forward_solver", entry_func="handle_f_postproc"]
+	
+	// Функции перехода
+	TRANS_F_PROC [predicate=PRED_F_PROC, function=HANDLE_F_PROC]
+	TRANS_F_POSTPROC [predicate=PRED_F_POSTPROC, function=HANDLE_F_POSTPROC]
+	
+	// Описание графа
+	__BEGIN__ -> SF_1
+	SF_1 -> SF_2 [morphism=TRANS_F_PROC]
+	SF_2 -> SF_3 [morphism=TRANS_F_POSTPROC]
+	SF_3 -> __END__
+}
